@@ -1,0 +1,16 @@
+http://localhost:8484/api/createUser/
+
+{
+	"nome": "marcelo",
+	"senha" : "12344",
+	"idade" : "21",
+	"email" : "marcelo@gmail.com"
+}
+
+http://localhost:8484/api/deleteUser/1
+
+http://localhost:8484/api/users
+
+http://localhost:8484/api/get_user/1
+
+
