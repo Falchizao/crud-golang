@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/falchizao/crud-golang/models"
 	"github.com/falchizao/crud-golang/storage"
@@ -15,6 +16,39 @@ import (
 
 type Repository struct {
 	DB *gorm.DB
+}
+
+func (r *Repository) UpdateUser(context *fiber.Ctx) error {
+
+	id := context.Params("id")
+
+	if id == "" {
+		context.Status(http.StatusInternalServerError).JSON(&fiber.Map{
+			"message": "id nao pode ser vazio",
+		})
+		return nil
+	}
+
+	var idcast = StringToUint(id)
+
+	user := models.Users{ID: idcast}
+
+	err := context.BodyParser(&user)
+
+	if err != nil {
+		context.Status(http.StatusUnprocessableEntity).JSON(&fiber.Map{"message": "request failed"})
+		return err
+	}
+
+	err = r.DB.Updates(&user).Error
+	if err != nil {
+		context.Status(http.StatusBadRequest).JSON(&fiber.Map{"message": "erro ao fazer update do usuario"})
+		return err
+	}
+
+	context.Status(http.StatusOK).JSON(&fiber.Map{"message": "usuario atualizado com sucesso"})
+
+	return nil
 }
 
 func (r *Repository) CreateUser(context *fiber.Ctx) error {
@@ -35,8 +69,8 @@ func (r *Repository) CreateUser(context *fiber.Ctx) error {
 
 	context.Status(http.StatusOK).JSON(&fiber.Map{"message": "usuario criado com sucesso"})
 	return nil
-
 }
+
 func (r *Repository) GetUsers(context *fiber.Ctx) error {
 	userModels := &[]models.Users{}
 
@@ -54,11 +88,16 @@ func (r *Repository) GetUsers(context *fiber.Ctx) error {
 	return nil
 }
 
+func StringToUint(s string) uint {
+	i, _ := strconv.Atoi(s)
+	return uint(i)
+}
+
 type User struct {
 	Nome  string `json:"nome"`
 	Email string `json:"email"`
 	Senha string `json:"senha"`
-	Idade string `json:"idade"`
+	Idade int    `json:"idade"`
 }
 
 func (r *Repository) DeleteUser(context *fiber.Ctx) error {
@@ -99,7 +138,6 @@ func (r *Repository) GetUserByID(context *fiber.Ctx) error {
 		return nil
 	}
 
-	fmt.Println("o id e", id)
 	err := r.DB.Where("id = ?", id).First(userModel).Error
 	if err != nil {
 		context.Status(http.StatusBadRequest).JSON(
@@ -122,6 +160,7 @@ func (r *Repository) SetupRoutes(app *fiber.App) {
 	api.Delete("/deleteUser/:id", r.DeleteUser)
 	api.Get("/get_user/:id", r.GetUserByID)
 	api.Get("/users", r.GetUsers)
+	api.Put("/update_user/:id", r.UpdateUser)
 }
 
 func main() {
