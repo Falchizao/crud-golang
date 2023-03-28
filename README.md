@@ -3,6 +3,26 @@
 Api-Rest de uma aplicação CRUD em GO.
 Persistência de dados realizada no PostgreSQL.
 
+Go é uma linguagem de programação criada pela Google e lançada em código livre em novembro de 2009. 
+É uma linguagem compilada e focada em produtividade e programação concorrente.
+
+Vantagens da golang:
+- Fácil de entender.
+- Alta performance
+- Segura
+- Garbage collector nativo
+- Concorrência
+- Utilização de ponteiros para alocação dinâmica de memória
+- Flexibilidate para estruturas complexas por conta de ponteiros
+- Referência para funções
+
+Desvantagem:
+- Constante validação de dados
+- Não possui overload de construtores
+
+- Dificuldades que eu tive: 
+ - Problemas com ponteiros e validação de erros
+
 Para estruturar o projeto, deve-se iniciar o go.mod e go.sum.
 
 - go.mod: 
@@ -14,7 +34,7 @@ Para estruturar o projeto, deve-se iniciar o go.mod e go.sum.
 No arquivo .env se encontra algumas variáveis constantes para gerenciamento do projeto, adicionando
 ele no .gitignore, não será enviada suas configurações privadas do projeto.
 
-- Utilizado o fiber para handle das rotas da aplicação
+- Utilizado o fiber para handle das rotas da aplicação, que é a engine mais rápida para http em go
 
 - Utilizado o gorm como ORM para mapeamento das entidades
 
