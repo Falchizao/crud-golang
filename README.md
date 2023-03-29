@@ -34,7 +34,7 @@ Para estruturar o projeto, deve-se iniciar o go.mod e go.sum.
 No arquivo .env se encontra algumas variáveis constantes para gerenciamento do projeto, adicionando
 ele no .gitignore, não será enviada suas configurações privadas do projeto.
 
-- Utilizado o fiber para handle das rotas da aplicação, que é a engine mais rápida para http em go
+- Utilizado o fiber para handle das rotas da aplicação, que é a engine mais rápida para http em go, baseado no nodejs, é possivel subir um servidor rapidamente
 
 - Utilizado o gorm como ORM para mapeamento das entidades
 
